@@ -36,3 +36,5 @@ Use Maven to build, run and clean the application and download its dependencies:
 
 ##Accessing the App
 Open your web browser and navigate to http://localhost:8080 to access the application.
+
+Swagger: http://localhost:8080/swagger-ui/index.html#/weather-controller/getWeatherAverages
