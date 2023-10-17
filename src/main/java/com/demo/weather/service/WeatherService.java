@@ -30,25 +30,6 @@ public class WeatherService {
         this.webClient = webClientBuilder.baseUrl(baseUrl).build();
     }
 
-    private static boolean isValidCity(String city) {
-        if (!ALLOWED_CITIES.contains(city)) {
-            return false;
-        }
-        return true;
-    }
-
-    private static boolean isNullWeatherForecast(WeatherForecast weatherForecast) {
-        if (weatherForecast == null) {
-            return true;
-        } else if (weatherForecast.getTemperature() == null
-                && weatherForecast.getWind() == null
-                && weatherForecast.getDescription() == null
-                && (weatherForecast.getForecast() == null || weatherForecast.getForecast().isEmpty())) {
-            return true;
-        }
-        return false;
-    }
-
     private static WeatherResponse calculateAverages(Map<String, WeatherForecast> forecastMap) {
         List<WeatherData> weatherDataList = new ArrayList<>();
         WeatherResponse weatherResponse = new WeatherResponse();
@@ -76,7 +57,6 @@ public class WeatherService {
         return weatherResponse;
     }
 
-
     public WeatherResponse getWeatherData(List<String> cityList) {
         logger.info("Received a request to get weather data for cities: {}", cityList);
         List<String> validCityList = cityList.stream().filter(WeatherService::isValidCity).distinct().collect(Collectors.toList());
@@ -98,7 +78,6 @@ public class WeatherService {
         return weatherResponse;
     }
 
-
     private WeatherForecast getWeatherDataForCity(String city) {
         try {
             return webClient
@@ -114,6 +93,25 @@ public class WeatherService {
             }
         }
         return new WeatherForecast();
+    }
+
+    private static boolean isValidCity(String city) {
+        if (!ALLOWED_CITIES.contains(city)) {
+            return false;
+        }
+        return true;
+    }
+
+    private static boolean isNullWeatherForecast(WeatherForecast weatherForecast) {
+        if (weatherForecast == null) {
+            return true;
+        } else if (weatherForecast.getTemperature() == null
+                && weatherForecast.getWind() == null
+                && weatherForecast.getDescription() == null
+                && (weatherForecast.getForecast() == null || weatherForecast.getForecast().isEmpty())) {
+            return true;
+        }
+        return false;
     }
 }
 
